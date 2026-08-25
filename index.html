@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="id" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadek Wahyu Ardia Putra | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- CSS Variables untuk Light & Dark Mode --- */
+        :root {
+            --bg-color: #ffffff;
+            --surface-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-1: #3b82f6; 
+            --accent-2: #8b5cf6; 
+            --border-color: #e2e8f0;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            /* Exhibition section stays dark for immersive feel */
+            --gallery-bg: #0f172a; 
+            --exhibition-bg: #050b14; 
+        }
+
+        body.dark-theme {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --glass-bg: rgba(30, 41, 59, 0.65);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Kursor Animasi Custom --- */
+        .cursor-follower {
+            position: fixed; top: 0; left: 0; width: 35px; height: 35px;
+            background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                        background-color 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(2px); display: none;
+        }
+        @media (pointer: fine) { .cursor-follower { display: block; } }
+
+        /* --- Navbar & Controls --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 1rem 5%;
+            background: var(--nav-bg); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+        .logo {
+            font-weight: 800; font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-right { display: flex; align-items: center; gap: 2rem; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-primary); font-weight: 600; 
+            font-size: 0.95rem; position: relative; transition: color 0.3s ease;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--accent-1); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Controls (Translate & Theme) */
+        .controls-group { display: flex; gap: 12px; align-items: center; }
+        
+        .theme-switch {
+            display: flex; align-items: center; justify-content: center;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--surface-color); border: 1px solid var(--border-color);
+            color: var(--text-secondary); cursor: pointer; transition: all 0.3s;
+        }
+        .theme-switch:hover {
+            color: var(--accent-1); border-color: var(--accent-1);
+            box-shadow: 0 4px 10px rgba(59,130,246,0.1);
+        }
+
+        .lang-switch {
+            display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem;
+            background: var(--surface-color); padding: 6px 12px; border-radius: 50px;
+            border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s;
+            user-select: none;
+        }
+        .lang-switch:hover { border-color: var(--accent-1); box-shadow: 0 4px 10px rgba(59,130,246,0.1); }
+        .lang-switch.en-mode .id-text { color: var(--text-secondary); font-weight: 500; }
+        .lang-switch.en-mode .en-text { color: var(--accent-1); font-weight: 800; }
+        .lang-switch:not(.en-mode) .id-text { color: var(--accent-1); font-weight: 800; }
+        .lang-switch:not(.en-mode) .en-text { color: var(--text-secondary); font-weight: 500; }
+        
+        .toggle-track {
+            width: 32px; height: 18px; background: var(--border-color); border-radius: 10px;
+            position: relative; transition: background 0.3s;
+        }
+        .toggle-thumb {
+            width: 14px; height: 14px; background: white; border-radius: 50%;
+            position: absolute; top: 2px; left: 2px; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .lang-switch.en-mode .toggle-track { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); }
+        .lang-switch.en-mode .toggle-thumb { transform: translateX(14px); }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: flex-start;
+            padding: 120px 5% 50px 5%; position: relative; overflow: hidden;
+        }
+        .hero-blob {
+            position: absolute; width: 500px; height: 500px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.05));
+            border-radius: 50%; filter: blur(80px); top: -100px; left: -100px; z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero-content { position: relative; max-width: 650px; width: 55%; z-index: 2; }
+        .hero-visual-wrapper { position: absolute; top: 0; right: 0; width: 50%; height: 100%; z-index: 1; }
+        .hero-bg-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, var(--bg-color) 0%, rgba(255,255,255,0) 45%),
+                        linear-gradient(to top, var(--bg-color) 0%, rgba(255,255,255,0) 25%);
+            z-index: 2; pointer-events: none; transition: background 0.4s ease;
+        }
+        .hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+        
+        .floating-badge-name {
+            position: absolute; bottom: 15%; left: 10%; background: var(--glass-bg);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); padding: 1.5rem 2.2rem;
+            border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08); border: 1px solid var(--border-color);
+            text-align: left; z-index: 10; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+        }
+        .floating-badge-name:hover { transform: translateY(-8px); }
+        .floating-badge-name h3 { font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.2rem; letter-spacing: -0.3px; }
+        .floating-badge-name p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; font-weight: 500; }
+        .floating-badge-name .univ-tag {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 15px; font-size: 0.75rem;
+            padding: 6px 14px; background: var(--card-bg); border-radius: 50px; color: var(--accent-1); font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .badge {
+            display: inline-block; padding: 0.5rem 1.2rem; background: var(--surface-color); border: 1px solid var(--border-color);
+            border-radius: 50px; font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 1.5rem;
+        }
+        .hero h1 { font-size: 3.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero h1 span { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2.5rem; line-height: 1.8; }
+        
+        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn { padding: 0.9rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); color: white;}
+        .btn-secondary { background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { border-color: var(--text-secondary); transform: translateY(-3px); color: var(--text-primary);}
+
+        /* --- Sections --- */
+        section { padding: 6rem 5%; position: relative; z-index: 5; background: var(--bg-color); }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary); }
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- Skills & Tools --- */
+        .skills-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; max-width: 950px; margin: 0 auto; }
+        .skill-tag { padding: 0.8rem 1.5rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 0.8rem; transition: all 0.3s ease; cursor: default; }
+        .skill-tag img { width: 26px; height: 26px; object-fit: contain; border-radius: 4px; }
+        .skill-tag i { font-size: 1.4rem; color: var(--accent-1); }
+        .skill-tag:hover { border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); }
+
+        /* --- Portfolio Grid --- */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; z-index: 1; cursor: pointer; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(59, 130, 246, 0.03), rgba(139, 92, 246, 0.03)); z-index: -1; opacity: 0; transition: opacity 0.4s ease; }
+        .card:hover { transform: translateY(-10px); border-color: transparent; box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+        .card:hover::before { opacity: 1; }
+        .card-icon { width: 50px; height: 50px; background: var(--surface-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent-1); margin-bottom: 1.5rem; transition: all 0.4s ease; }
+        .card:hover .card-icon { background: var(--accent-1); color: white; transform: scale(1.1) rotate(5deg); }
+        .card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.3; color: var(--text-primary); }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;}
+        .card-tags span { font-size: 0.75rem; padding: 0.3rem 0.8rem; background: var(--surface-color); border-radius: 50px; color: var(--text-secondary); font-weight: 600; }
+        .click-hint { font-size: 0.85rem; color: var(--accent-1); font-weight: 700; display: flex; align-items: center; gap: 5px;}
+
+        /* ========================================================================= */
+        /* --- IMMERSIVE EXHIBITION GALLERY (PENGALAMAN ORGANISASI) --- */
+        /* ========================================================================= */
+        
+        .exhibition-section {
+            background-color: var(--exhibition-bg);
+            padding: 0; margin: 0; position: relative;
+        }
+
+        .exhibition-wrapper {
+            height: 100vh; position: relative;
+        }
+
+        .exhibition-layout {
+            position: relative; top: 0; left: 0; width: 100vw; height: 100vh;
+            overflow: hidden; display: flex;
+        }
+
+        .sticky-left {
+            flex: 0 0 35vw; height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; padding-left: 5vw; padding-right: 4vw;
+            z-index: 10; background-color: var(--exhibition-bg);
+        }
+
+        .sticky-left h2 {
+            font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; color: #ffffff;
+        }
+        .sticky-left p { font-size: 1.1rem; color: #94a3b8; line-height: 1.7; }
+
+        /* Instagram Elegent Button */
+        .ig-link {
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 2rem;
+            padding: 12px 22px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white; font-weight: 700; border-radius: 50px; text-decoration: none;
+            font-size: 0.95rem; box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3); transition: all 0.3s;
+            width: fit-content;
+        }
+        .ig-link:hover {
+            transform: translateY(-3px); box-shadow: 0 8px 25px rgba(220, 39, 67, 0.5); color: white;
+        }
+
+        .horizontal-scroll-window {
+            flex: 0 0 65vw; height: 100vh; overflow-x: auto; overflow-y: hidden;
+            position: relative; scrollbar-width: none; 
+        }
+        .horizontal-scroll-window::-webkit-scrollbar { display: none; }
+
+        .exhibition-track {
+            display: flex; align-items: center; height: 100vh; width: max-content;
+            gap: 0; padding-right: 0; will-change: transform;
+        }
+
+        .exhibition-item {
+            width: 65.1vw; height: 100vh; border-radius: 0; margin-right: -2px; /* Seamless overlap */
+            border: none; position: relative; flex-shrink: 0; box-shadow: none; cursor: pointer; overflow: hidden;
+        }
+        .exhibition-item:hover { transform: none; border-color: transparent; }
+        .exhibition-item img {
+            width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 1s ease;
+        }
+        .exhibition-item:hover img { transform: scale(1.04); }
+
+        .exhibition-gradient-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(5, 11, 20, 0.95) 0%, rgba(5, 11, 20, 0.3) 40%, rgba(0,0,0,0) 70%);
+            z-index: 1; pointer-events: none;
+        }
+
+        .exhibition-text-content {
+            position: absolute; bottom: 12vh; left: 4vw; width: calc(100% - 8vw);
+            padding: 0; z-index: 2; color: #ffffff; text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+
+        .exhibition-number {
+            font-size: 7rem; font-weight: 800; color: rgba(255, 255, 255, 0.12);
+            position: absolute; top: -5.5rem; left: -1rem; z-index: -1; line-height: 1; user-select: none;
+        }
+
+        .exhibition-date {
+            font-size: 0.85rem; font-weight: 800; color: var(--accent-1);
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.8rem; display: block;
+        }
+
+        .exhibition-title {
+            font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 0.8rem; letter-spacing: -1px;
+        }
+
+        .exhibition-desc {
+            font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; font-weight: 400; max-width: 85%;
+        }
+
+        /* --- GLOWING PROGRESS BAR (Gaya Modern Visual) --- */
+        .exhibition-timeline-ui {
+            position: absolute; bottom: 6vh; left: calc(35vw + 4vw); width: calc(65vw - 8vw); 
+            height: 4px; z-index: 10; display: flex; align-items: center;
+        }
+
+        .timeline-progress-bg {
+            position: absolute; left: 0; width: 100%; height: 4px;
+            background: rgba(255, 255, 255, 0.15); border-radius: 4px;
+        }
+
+        .timeline-progress-fill {
+            position: absolute; left: 0; height: 4px; width: 0%;
+            background: linear-gradient(90deg, #60a5fa, #a855f7);
+            box-shadow: 0 0 15px 2px rgba(168, 85, 247, 0.8); /* Efek Cahaya */
+            border-radius: 4px; transition: width 0.1s ease-out; z-index: 1;
+        }
+
+        .timeline-markers-container {
+            position: absolute; left: 0; width: 100%; display: flex;
+            justify-content: space-between; align-items: center; z-index: 2;
+        }
+
+        .exhibition-marker {
+            width: 16px; height: 16px; background: #0f172a;
+            border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .exhibition-marker.active {
+            background: #ffffff; border-color: #ffffff;
+            box-shadow: 0 0 15px 5px rgba(168, 85, 247, 0.8), 0 0 5px white; /* Node Menyala */
+        }
+
+        /* --- Timeline Sertifikasi & Event (Gaya Alur Perjalanan / Winding Roadmap) --- */
+        .timeline-section {
+            background-color: var(--surface-color); padding: 8rem 5%; position: relative; z-index: 5;
+        }
+        .timeline-container {
+            max-width: 1000px; margin: 0 auto; position: relative; padding: 2rem 0;
+        }
+        
+        /* Garis Tengah Solid Minimalis */
+        .timeline-container::before {
+            content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+            background: var(--border-color); transform: translateX(-50%);
+        }
+
+        .journey-item {
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; margin-bottom: 4rem; position: relative;
+        }
+        .journey-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .journey-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Node Belah Ketupat (Unik, Bukan Bulat, Tanpa Glow) */
+        .journey-node {
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 20px; height: 20px; background: var(--card-bg);
+            border: 4px solid var(--accent-1); border-radius: 4px;
+            z-index: 2; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .journey-item:hover .journey-node {
+            background: var(--accent-1);
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.3);
+        }
+
+        /* Garis Penyambung dari Node ke Card */
+        .journey-connector {
+            position: absolute; top: 50%; width: 50%; height: 2px;
+            background: dashed 2px var(--border-color); z-index: 1;
+        }
+        .journey-item:nth-child(odd) .journey-connector { left: 0; }
+        .journey-item:nth-child(even) .journey-connector { right: 0; }
+
+        .journey-content {
+            width: 43%; background: var(--card-bg); padding: 2.5rem; border-radius: 20px;
+            border: 1px solid var(--border-color); position: relative; z-index: 3;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); cursor: pointer;
+        }
+        .journey-content:hover {
+            transform: translateY(-8px); border-color: var(--accent-1);
+            box-shadow: 0 20px 40px rgba(59,130,246,0.06);
+        }
+        .journey-category {
+            font-size: 0.85rem; font-weight: 800; color: var(--text-secondary);
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;
+            display: inline-block; padding: 0.4rem 1rem; background: var(--surface-color);
+            border-radius: 50px;
+        }
+        .journey-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); }
+        .journey-content p { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+        /* --- Pameran Gambar (Gallery Seni) Section --- */
+        .gallery-section {
+            background-color: var(--gallery-bg); 
+            color: #f8fafc; padding: 6rem 0; overflow: hidden; 
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .gallery-section .section-header p { color: #94a3b8; }
+        .gallery-container {
+            display: flex; gap: 2rem; padding: 2rem 5%; overflow-x: auto;
+            scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; 
+        }
+        .gallery-container::-webkit-scrollbar { display: none; }
+        .gallery-item {
+            flex: 0 0 auto; width: 350px; height: 480px; border-radius: 16px;
+            overflow: hidden; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            cursor: pointer; transition: transform 0.4s ease, box-shadow 0.4s ease; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .gallery-item:hover {
+            transform: translateY(-15px) scale(1.02); box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            border-color: rgba(255,255,255,0.3); z-index: 2;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem 1.5rem 1.5rem;
+            background: linear-gradient(to top, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0) 100%);
+            transform: translateY(20px); opacity: 0; transition: all 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay { transform: translateY(0); opacity: 1; }
+        .gallery-overlay h4 { color: white; font-size: 1.1rem; margin-bottom: 5px; font-weight: 700; }
+        .gallery-overlay p { color: #cbd5e1; font-size: 0.85rem; margin: 0; }
+        .scroll-hint {
+            text-align: center; color: #64748b; font-size: 0.9rem; margin-top: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .scroll-hint i { animation: moveHorizontal 2s infinite; }
+
+        /* --- Modal Box Custom (Bug Fix & Layout) --- */
+        .modal {
+            display: none; position: fixed; z-index: 10001; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
+            opacity: 0; transition: opacity 0.3s ease; align-items: center; justify-content: center; padding: 2rem;
+        }
+        .modal.show { opacity: 1; }
+        .modal-content {
+            background-color: var(--card-bg); padding: 3.5rem 3rem 3rem; border: 1px solid var(--border-color); border-radius: 24px;
+            width: 100%; max-width: 800px; position: relative; transform: translateY(-30px); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
+        }
+        .modal.show .modal-content { transform: translateY(0); }
+        
+        /* Tombol Close Tahan Bug & Presisi */
+        .close-btn {
+            position: absolute; top: 20px; right: 20px; color: var(--text-secondary);
+            font-size: 1.2rem; cursor: pointer; width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 14px; background: var(--surface-color); border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); z-index: 100;
+        }
+        .close-btn:hover { color: white; background: #ef4444; border-color: #ef4444; transform: rotate(90deg) scale(1.05); }
+        
+        /* Modal Gallery Layout */
+        .modal-gallery { margin-bottom: 2rem; gap: 15px; }
+        .modal-gallery img { width: 100%; border-radius: 16px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); object-fit: cover; }
+        .modal-gallery.multiple-imgs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .modal-gallery.multiple-imgs img { height: 200px; transition: transform 0.3s; cursor: pointer; }
+        .modal-gallery.multiple-imgs img:hover { transform: scale(1.03); }
+        .modal-gallery.single-img img { height: auto; max-height: 450px; display: block; margin: 0 auto; }
+
+        #modal-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary); }
+        #modal-desc { color: var(--text-secondary); font-size: 1rem; line-height: 1.8; }
+        
+        /* Code Block Layout */
+        .code-container {
+            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 1.5rem; margin-top: 1.5rem; overflow-x: auto; color: var(--text-primary);
+        }
+        .code-container pre {
+            margin: 0; font-family: monospace; font-size: 0.85rem; line-height: 1.6;
+        }
+
+        #modal-link { 
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 1.5rem; padding: 0.9rem 1.8rem; 
+            background: var(--surface-color); color: var(--accent-1); font-weight: 700; border-radius: 12px; 
+            text-decoration: none; border: 1px solid var(--border-color); transition: all 0.3s;
+        }
+        #modal-link:hover { background: var(--accent-1); color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25); }
+
+        /* Figma Custom Buttons */
+        .figma-btn-group {
+            display: flex; flex-direction: column; gap: 12px; margin-top: 1rem;
+        }
+        .figma-btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px;
+            background: var(--surface-color); color: var(--accent-1); font-weight: 600;
+            border-radius: 12px; text-decoration: none; border: 1px solid var(--border-color);
+            transition: all 0.3s ease; width: fit-content; font-size: 0.95rem;
+        }
+        .figma-btn:hover {
+            border-color: var(--accent-1); background: rgba(59, 130, 246, 0.05); transform: translateX(5px);
+        }
+
+        /* Footer */
+        .footer-cta { background: var(--bg-color); text-align: center; border-top: 1px solid var(--border-color); padding: 5rem 5% 3rem 5%; }
+
+        /* Animations */
+        @keyframes float { 0% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } 100% { transform: translateY(0px) scale(1); } }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .hero { flex-direction: column-reverse; justify-content: flex-end; padding-top: 60vh; }
+            .hero-content { width: 100%; text-align: center; padding-bottom: 50px; }
+            .hero-visual-wrapper { width: 100%; height: 60vh; left: 0; right: 0; top: 0; }
+            .hero-bg-overlay { background: linear-gradient(to top, var(--bg-color) 0%, rgba(255,255,255,0) 80%); }
+            .floating-badge-name { bottom: 10%; right: auto; left: 50%; transform: translateX(-50%); text-align: center; width: max-content; }
+            .floating-badge-name:hover { transform: translateX(-50%) translateY(-5px); }
+            .btn-group { justify-content: center; }
+            
+            .exhibition-wrapper { height: auto !important; }
+            .exhibition-layout { position: relative; height: auto; flex-direction: column; overflow: visible; display: block; padding: 0; }
+            .sticky-left { width: 100vw; height: auto; padding: 4rem 5%; text-align: center; }
+            .horizontal-scroll-window { width: 100vw; height: auto; display: block; overflow: visible; }
+            .exhibition-track { width: 100vw; flex-direction: column; transform: none !important; }
+            .exhibition-item { width: 100vw; height: 100vh; margin-right: 0; margin-bottom: -2px; } /* overlap bottom untuk portrait */
+            .exhibition-timeline-ui { display: none; }
+
+            /* Timeline Mobile Fix */
+            .timeline-container::before { left: 24px; }
+            .journey-item, .journey-item:nth-child(even) { flex-direction: column; align-items: flex-end; margin-bottom: 3rem; }
+            .journey-content { width: calc(100% - 65px); }
+            .journey-node { left: 24px; top: 40px; transform: translate(-50%, -50%) rotate(45deg); }
+            .journey-item:hover .journey-node { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
+            .journey-connector { display: none; } 
+            .journey-category { margin-bottom: 0.5rem; position: static; display: block; text-align: left; }
+            .timeline-item:nth-child(even) .journey-category { text-align: left; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .nav-links { display: none; }
+            .nav-right { gap: 1rem; }
+            .modal-content { padding: 3rem 1.5rem 1.5rem; }
+            .close-btn { top: 15px; right: 15px; width: 35px; height: 35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <!-- Modal Box -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
+            
+            <!-- Tempat Galeri Modal Berada -->
+            <div id="modal-img-container" style="display: none;"></div>
+
+            <h3 id="modal-title">Judul</h3>
+            <div id="modal-desc">Deskripsi</div>
+            <a id="modal-link" href="#" target="_blank" style="display: none;">
+                <span id="modal-link-text">Klik ini untuk melihat Prototype</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Wahyu.</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#about" class="hover-target tr" data-en="About">Tentang</a>
+                <a href="#skills" class="hover-target tr" data-en="Skills">Keahlian</a>
+                <a href="#portfolio" class="hover-target tr" data-en="Projects">Proyek</a>
+                <a href="#experience" class="hover-target tr" data-en="Experience">Pengalaman</a>
+                <a href="#certifications" class="hover-target tr" data-en="Certifications">Sertifikasi & Event</a>
+                <a href="#gallery" class="hover-target tr" data-en="Artworks">Karya Seni</a>
+            </div>
+            
+            <div class="controls-group">
+                <!-- Theme Toggle Button -->
+                <div class="theme-switch hover-target" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </div>
+                
+                <!-- Translate Toggle Button -->
+                <div class="lang-switch hover-target" id="langToggle" title="Translate Language">
+                    <span class="id-text">ID</span>
+                    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+                    <span class="en-text">EN</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="about">
+        <div class="hero-blob"></div>
+        <div class="hero-visual-wrapper" id="heroVisual">
+            <div class="hero-bg-overlay"></div>
+            <img src="WhatsApp Image 2026-08-24 at 10.10.30 PM.jpeg" class="hero-image" alt="Kadek Wahyu Ardia Putra">
+            
+            <div class="floating-badge-name hover-target">
+                <h3>Kadek Wahyu Ardia Putra</h3>
+                <p class="tr" data-en="Computer Science Student">Ilmu Komputer/Teknik Informatika</p>
+                <span class="univ-tag"><i class="fa-solid fa-graduation-cap"></i> <span class="tr" data-en="Ganesha University of Education">Univ. Pendidikan Ganesha</span></span>
+            </div>
+        </div>
+
+        <div class="hero-content reveal active">
+            <div class="badge tr" data-en="🎓 B.Sc. Computer Science Student">🎓 Mahasiswa S1 Ilmu Komputer</div>
+            <h1 class="tr" data-en="Hello, I am Kadek Wahyu Ardia Putra.<br><span>Tech & Data Enthusiast.</span>">Halo, saya Kadek Wahyu Ardia Putra.<br><span>Tech & Data Enthusiast.</span></h1>
+            <p class="tr" data-en="I am a passionate learner with a strong interest in digital technology innovation, focusing heavily on <b>Data Science</b>, <b>Artificial Intelligence</b>, and <b>UI/UX Design</b>.<br><br>Equipped with organizational and <i>leadership</i> experience (2025/2026 Period), I enjoy combining managerial skills with technical abilities such as <i>machine learning</i> modeling.">
+                Saya adalah seorang pembelajar yang menaruh minat besar pada inovasi teknologi digital, dengan fokus kuat pada eksplorasi <b>Data Science</b>, <b>Artificial Intelligence</b>, dan <b>UI/UX Design</b>. 
+                <br><br>
+                Berbekal pengalaman organisasi dan <i>leadership</i> (Periode 2025/2026), saya senang memadukan keterampilan manajerial dengan kemampuan teknis seperti pemodelan <i>machine learning</i>.
+            </p>
+            <div class="btn-group">
+                <a href="#portfolio" class="btn btn-primary hover-target tr" data-en="View Projects <i class='fa-solid fa-arrow-right'></i>">Lihat Proyek <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#experience" class="btn btn-secondary hover-target tr" data-en="<i class='fa-solid fa-certificate'></i> Experience"><i class="fa-solid fa-certificate"></i> Pengalaman</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Skills Section -->
+    <section id="skills" style="background: var(--surface-color);">
+        <div class="section-header reveal">
+            <h2 class="tr" data-en="Tools & Expertise">Alat & Keahlian</h2>
+            <p class="tr" data-en="Software and technologies I use in development, data analysis, and visual design.">Software dan teknologi yang saya gunakan dalam pengembangan, analisis data, maupun desain visual.</p>
+        </div>
+        <div class="skills-container reveal">
+            <div class="skill-tag hover-target"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg" alt="Canva"> Canva</div>
+            <div class="skill-tag hover-target"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma"> Figma</div>
+            <div class="skill-tag hover-target"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code"> Visual Studio Code</div>
+            <div class="skill-tag hover-target"><img src="https://img.icons8.com/color/48/google-sheets.png" alt="Spreadsheet"> Spreadsheet</div>
+            <div class="skill-tag hover-target"><img src="https://img.icons8.com/color/48/microsoft-excel-2019--v1.png" alt="Excel"> Microsoft Excel</div>
+            <div class="skill-tag hover-target"><img src="https://img.icons8.com/color/48/microsoft-word-2019--v2.png" alt="Word"> Microsoft Word</div>
+            <div class="skill-tag hover-target"><img src="images.png" alt="Adobe Illustrator" style="border-radius: 4px;"> Adobe Illustrator</div>
+            <div class="skill-tag hover-target"><img src="images.jpeg" alt="Ibis Paint" style="border-radius: 6px;"> Ibis Paint</div>
+            
+            <div class="skill-tag hover-target"><i class="fa-solid fa-pen-nib"></i> <span class="tr" data-en="Drawing">Drawing</span></div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <div class="section-header reveal">
+            <h2 class="tr" data-en="Selected Works & Projects">Karya & Proyek Terpilih</h2>
+            <p class="tr" data-en="Technical exploration, analytical research, and application interface design.">Eksplorasi teknis, riset analitik, dan perancangan antarmuka aplikasi.</p>
+        </div>
+        <div class="portfolio-grid">
+            
+            <div class="card reveal hover-target" onclick="openModal('proj1')">
+                <div class="card-icon"><i class="fa-solid fa-earth-asia"></i></div>
+                <h3 class="tr" data-en="Nakhon Phanom Flood Detection">Deteksi Banjir Nakhon Phanom</h3>
+                <p class="tr" data-en="Using Random Forest & Google Earth Engine (GEE) to classify flood-affected areas.">Penggunaan Random Forest & Google Earth Engine (GEE) untuk klasifikasi area terdampak banjir.</p>
+                <div class="card-tags"><span>GEE</span> <span>Random Forest</span> <span>Data</span></div>
+                <div class="click-hint tr" data-en="View Detail <i class='fa-solid fa-arrow-right-long'></i>">Lihat Detail <i class="fa-solid fa-arrow-right-long"></i></div>
+            </div>
+            
+            <div class="card reveal hover-target" style="transition-delay: 0.1s;" onclick="openModal('proj2')">
+                <div class="card-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                <h3>Sistem AeroInspect360</h3>
+                <p class="tr" data-en="Airport inspection reporting website and structured vehicle condition database using Spreadsheet.">Website pelaporan inspeksi bandar udara dan kondisi kendaraan terstruktur berbasis Spreadsheet.</p>
+                <div class="card-tags"><span>Web App</span> <span>Spreadsheet DB</span></div>
+                <div class="click-hint tr" data-en="View Detail <i class='fa-solid fa-arrow-right-long'></i>">Lihat Detail <i class="fa-solid fa-arrow-right-long"></i></div>
+            </div>
+            
+            <div class="card reveal hover-target" style="transition-delay: 0.2s;" onclick="openModal('proj3')">
+                <div class="card-icon"><i class="fa-brands fa-figma" style="color: #f24e1e;"></i></div>
+                <h3 class="tr" data-en="SEHATIN & LENTERA UI/UX">UI/UX SEHATIN & LENTERA</h3>
+                <p class="tr" data-en="Interactive user interface (UI) and user experience (UX) design using Figma.">Perancangan desain antarmuka dan pengalaman pengguna (UI/UX) interaktif menggunakan platform Figma.</p>
+                <div class="card-tags"><span>Figma</span> <span>UI/UX Design</span> <span>Prototype</span></div>
+                <div class="click-hint tr" data-en="View Detail & Prototype <i class='fa-solid fa-arrow-right-long'></i>">Lihat Detail & Prototype <i class="fa-solid fa-arrow-right-long"></i></div>
+            </div>
+
+            <div class="card reveal hover-target" style="transition-delay: 0.3s;" onclick="openModal('proj4')">
+                <div class="card-icon"><i class="fa-brands fa-github" style="color: #181717;"></i></div>
+                <h3 class="tr" data-en="GitHub Repository">Repositori GitHub</h3>
+                <p class="tr" data-en="Explore various source codes, mini projects, and my active contributions directly on my GitHub profile.">Jelajahi berbagai kode sumber, mini proyek, dan kontribusi nyata saya secara langsung di profil GitHub.</p>
+                <div class="card-tags"><span>Source Code</span> <span>Mini Projects</span> <span>Open Source</span></div>
+                <div class="click-hint tr" data-en="View Repository <i class='fa-solid fa-arrow-right-long'></i>">Lihat Repositori <i class="fa-solid fa-arrow-right-long"></i></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- IMMERSIVE EXHIBITION GALLERY (PENGALAMAN) - HOVER SCROLL  -->
+    <!-- ========================================================= -->
+    <section id="experience" class="exhibition-section">
+        <div class="exhibition-wrapper" id="exhibitionWrapper">
+            <div class="exhibition-layout">
+                
+                <div class="sticky-left reveal">
+                    <h2 class="tr" data-en="Organizational Experience">Pengalaman Organisasi</h2>
+                    <p class="tr" data-en="My journey, achievements, and active involvement with the Informatics Engineering Student Association (2025/2026). <br><br><b>Hover over the photo area on the right and scroll</b> to explore the gallery of every event interactively. <b>Or scroll within this text area</b> to bypass this section downwards.">
+                        Perjalanan, pencapaian, dan keterlibatan aktif saya bersama Himpunan Mahasiswa Jurusan Teknik Informatika (Periode 2025/2026). <br><br><b>Arahkan kursor ke area foto di sebelah kanan dan scroll</b> untuk menyusuri galeri setiap momen kegiatan. <b>Atau scroll di area teks ini</b> untuk melewati bagian ini ke bawah.
+                    </p>
+
+                    <!-- Instagram Custom Elegant Button -->
+                    <a href="https://www.instagram.com/ilmukomputer_undiksha?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" class="ig-link hover-target tr" data-en="<i class='fa-brands fa-instagram'></i> View Managed Instagram">
+                        <i class="fa-brands fa-instagram"></i> Lihat Instagram yang Saya Kelola
+                    </a>
+
+                </div>
+
+                <div class="horizontal-scroll-window">
+                    <div class="exhibition-track" id="exhibitionTrack">
+                        
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_1')">
+                            <img src="Mei5.jpeg" alt="Rapat Kerja HMJ TI" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">01</div>
+                                <span class="exhibition-date tr" data-en="May 2025">Mei 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Working Meeting">Rapat Kerja HMJ TI</h3>
+                                <p class="exhibition-desc tr" data-en="Formulating strategic work programs for the new cabinet (2025/2026).">Merumuskan program kerja strategis kabinet baru untuk periode masa bakti 2025/2026.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_2')">
+                            <img src="Mei.jpeg" alt="Sambutan IT Camp" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">02</div>
+                                <span class="exhibition-date tr" data-en="May 2025">Mei 2025</span>
+                                <h3 class="exhibition-title tr" data-en="IT Camp Opening">Pembukaan IT Camp</h3>
+                                <p class="exhibition-desc tr" data-en="Presenting the vision of outdoor orientation focused on strengthening new student solidarity.">Pemaparan visi orientasi luar ruangan yang difokuskan pada penguatan rasa kebersamaan mahasiswa baru.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_3')">
+                            <img src="Mei1.jpeg" alt="Kegiatan IT Camp" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">03</div>
+                                <span class="exhibition-date tr" data-en="May 2025">Mei 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Informatics Solidarity">Solidaritas Informatika</h3>
+                                <p class="exhibition-desc tr" data-en="Field activities with the committee to strengthen teamwork and leadership.">Kegiatan lapangan bersama seluruh panitia untuk mempererat kerja sama tim dan jiwa kepemimpinan.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_4')">
+                            <img src="Juli1.jpeg" alt="Penyampaian Materi IT Educare" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">04</div>
+                                <span class="exhibition-date tr" data-en="July 2025">Juli 2025</span>
+                                <h3 class="exhibition-title tr" data-en="IT Educare Counseling">Penyuluhan IT Educare</h3>
+                                <p class="exhibition-desc tr" data-en="Delivering digital literacy education directly to the community and students.">Penyampaian edukasi literasi digital secara langsung kepada masyarakat dan siswa dalam program pengabdian.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_5')">
+                            <img src="Juli4.jpeg" alt="Panitia IT Educare 2025" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">05</div>
+                                <span class="exhibition-date tr" data-en="July 2025">Juli 2025</span>
+                                <h3 class="exhibition-title tr" data-en="IT Educare Peak">Puncak IT Educare</h3>
+                                <p class="exhibition-desc tr" data-en="Great collaboration from the entire committee in succeeding the annual educational event.">Kolaborasi hebat dari seluruh kepanitiaan HMJ TI dalam menyukseskan acara edukasi tahunan.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_6')">
+                            <img src="Juliiiiiii.jpeg" alt="Studi Banding HIMAPRODI" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">06</div>
+                                <span class="exhibition-date tr" data-en="July 2025">Juli 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Comparative Study">Studi Banding HIMAPRODI</h3>
+                                <p class="exhibition-desc tr" data-en="Exchanging insights and innovative work programs with other student associations.">Bertukar wawasan dan program kerja inovatif bersama himpunan mahasiswa untuk memperluas perspektif organisasi.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_7')">
+                            <img src="Oktober1.jpeg" alt="Sharing Session" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">07</div>
+                                <span class="exhibition-date tr" data-en="October 2025">Oktober 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Sharing Session">Sharing Session</h3>
+                                <p class="exhibition-desc tr" data-en="Sharing knowledge and experiences discussing tech innovation and technopreneurship.">Sesi berbagi ilmu dan pengalaman yang membahas inovasi teknologi serta technopreneurship bersama mahasiswa.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_8')">
+                            <img src="Integer Oktober.jpeg" alt="INTEGER 2025" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">08</div>
+                                <span class="exhibition-date tr" data-en="October 2025">Oktober 2025</span>
+                                <h3 class="exhibition-title">INTEGER 2025</h3>
+                                <p class="exhibition-desc tr" data-en="Participating as a committee in INTEGER, a national IT exploration and competition platform.">Berpartisipasi dalam kepanitiaan INTEGER sebagai wadah eksplorasi dan kompetisi IT tingkat nasional.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_9')">
+                            <img src="November.jpeg" alt="Acara Cosplay November" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">09</div>
+                                <span class="exhibition-date tr" data-en="November 2025">November 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Creative Activities">Kegiatan Kreatif</h3>
+                                <p class="exhibition-desc tr" data-en="Supporting student creativity and enthusiasm in a pop culture (Cosplay) themed event.">Mendukung kreativitas dan antusiasme mahasiswa dalam acara bertema budaya pop (Cosplay).</p>
+                            </div>
+                        </div>
+                        
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_10')">
+                            <img src="November4.jpeg" alt="Pameran Stand" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">10</div>
+                                <span class="exhibition-date tr" data-en="November 2025">November 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Program Exhibition">Pameran Program Studi</h3>
+                                <p class="exhibition-desc tr" data-en="Educating visitors by showcasing innovations and top activities of the CS department.">Mengedukasi pengunjung dengan memamerkan inovasi dan aktivitas unggulan dari program studi Ilmu Komputer.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_11')">
+                            <img src="November korma.jpeg" alt="Sinergi Organisasi" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">11</div>
+                                <span class="exhibition-date tr" data-en="November 2025">November 2025</span>
+                                <h3 class="exhibition-title tr" data-en="Organizational Synergy">Sinergi Organisasi</h3>
+                                <p class="exhibition-desc tr" data-en="Moments of togetherness and organizational consolidation within the Faculty.">Momen kebersamaan dan konsolidasi kepengurusan organisasi mahasiswa di lingkungan Fakultas.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_12')">
+                            <img src="Januari.jpeg" alt="PEMIRA FTK 2026" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">12</div>
+                                <span class="exhibition-date tr" data-en="January 2026">Januari 2026</span>
+                                <h3 class="exhibition-title tr" data-en="Faculty Election">PEMIRA Serentak FTK</h3>
+                                <p class="exhibition-desc tr" data-en="Participating in the execution of the simultaneous Faculty Election (PEMIRA).">Berpartisipasi dalam penyelenggaraan Pemilihan Raya (PEMIRA) serentak Fakultas Teknik dan Kejuruan.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_13')">
+                            <img src="Februari.jpeg" alt="Kegiatan Himpunan" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">13</div>
+                                <span class="exhibition-date tr" data-en="February 2026">Februari 2026</span>
+                                <h3 class="exhibition-title tr" data-en="Board Solidarity">Solidaritas Pengurus</h3>
+                                <p class="exhibition-desc tr" data-en="Documentation of initial coordination and bonding with Informatics Association members.">Dokumentasi kebersamaan dan koordinasi awal bersama anggota Himpunan Mahasiswa Jurusan Teknik Informatika.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_14')">
+                            <img src="MAret2.jpeg" alt="Pencapaian Mahasiswa" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">14</div>
+                                <span class="exhibition-date tr" data-en="March 2026">Maret 2026</span>
+                                <h3 class="exhibition-title tr" data-en="Organizational Appreciation">Apresiasi Organisasi</h3>
+                                <p class="exhibition-desc tr" data-en="Receiving awards and certificates as appreciation for academic and organizational dedication.">Menerima penghargaan dan sertifikat sebagai bentuk apresiasi atas dedikasi serta pencapaian di bidang akademik dan organisasi.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_15')">
+                            <img src="Maret4.jpeg" alt="Koordinasi Tim" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">15</div>
+                                <span class="exhibition-date tr" data-en="March 2026">Maret 2026</span>
+                                <h3 class="exhibition-title tr" data-en="Committee Unity">Kekompakan Panitia</h3>
+                                <p class="exhibition-desc tr" data-en="Moments of synergy among committee teams in preparing and succeeding various campus programs.">Momen kebersamaan dan sinergi tim panitia dalam mempersiapkan dan menyukseskan berbagai program kerja kampus.</p>
+                            </div>
+                        </div>
+
+                        <div class="exhibition-item hover-target" onclick="openModal('exp_16')">
+                            <img src="akhir maret.jpeg" alt="Suksesi Camp" onerror="this.style.display='none'">
+                            <div class="exhibition-gradient-overlay"></div>
+                            <div class="exhibition-text-content">
+                                <div class="exhibition-number">16</div>
+                                <span class="exhibition-date tr" data-en="Late March 2026">Akhir Maret 2026</span>
+                                <h3 class="exhibition-title tr" data-en="Succession Camp">Suksesi Camp</h3>
+                                <p class="exhibition-desc tr" data-en="Character development and leadership regeneration activities through an outdoor Succession Camp.">Kegiatan pengembangan karakter dan regenerasi kepemimpinan melalui program Suksesi Camp di alam terbuka.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- GLOWING PROGRESS BAR (Gaya Modern Visual Tertanam) -->
+                <div class="exhibition-timeline-ui">
+                    <div class="timeline-progress-bg"></div>
+                    <div class="timeline-progress-fill" id="exhibitionProgressFill"></div>
+                    <div class="timeline-markers-container" id="timelineMarkersContainer">
+                        <!-- Markers digenerate oleh JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sertifikasi & Event Section (ALUR PERJALANAN / JOURNEY ROADMAP) -->
+    <section id="certifications" class="timeline-section">
+        <div class="section-header reveal">
+            <h2 class="tr" data-en="Professional Certifications & Events">Sertifikasi & Event Profesional</h2>
+            <p class="tr" data-en="Achievement of technical skill validation and participation in community-based educational events.">Pencapaian validasi keterampilan teknis dan partisipasi dalam ajang edukatif berbasis komunitas.</p>
+        </div>
+        
+        <div class="timeline-container">
+            
+            <div class="journey-item reveal">
+                <div class="journey-connector"></div>
+                <div class="journey-node"></div>
+                <div class="journey-content hover-target" onclick="openModal('cert1')">
+                    <div class="journey-category tr" data-en="Certification & Bootcamp">Sertifikasi & Bootcamp</div>
+                    <h3 class="tr" data-en="Learning Basic Data Science">Belajar Dasar Data Science</h3>
+                    <p class="tr" data-en="Awarded by Dicoding Academy upon graduation from the Basic Data Science class. Validates full understanding of essential concepts in data analysis.">Diberikan oleh Dicoding Academy atas kelulusan pada kelas Belajar Dasar Data Science. Memvalidasi pemahaman yang utuh terhadap konsep esensial pada proses analisis data.</p>
+                    <div class="click-hint tr" data-en="View Certificate Detail <i class='fa-solid fa-arrow-right-long'></i>">Lihat Detail Sertifikat <i class="fa-solid fa-arrow-right-long"></i></div>
+                </div>
+            </div>
+
+            <div class="journey-item reveal" style="transition-delay: 0.1s;">
+                <div class="journey-connector"></div>
+                <div class="journey-node"></div>
+                <div class="journey-content hover-target" onclick="openModal('cert2')">
+                    <div class="journey-category tr" data-en="Global Certification">Sertifikasi Global</div>
+                    <h3>IC3 GS6 Level 1</h3>
+                    <p class="tr" data-en="Global competency certification proving mastery over essential knowledge in basic technology, digital security, communication, and cyber collaboration.">Sertifikasi kompetensi global yang membuktikan penguasaan terhadap pengetahuan esensial pada teknologi dasar, keamanan digital, komunikasi, hingga kolaborasi siber.</p>
+                    <div class="click-hint tr" data-en="View Certificate Detail <i class='fa-solid fa-arrow-right-long'></i>">Lihat Detail Sertifikat <i class="fa-solid fa-arrow-right-long"></i></div>
+                </div>
+            </div>
+
+            <div class="journey-item reveal" style="transition-delay: 0.2s;">
+                <div class="journey-connector"></div>
+                <div class="journey-node"></div>
+                <div class="journey-content hover-target" onclick="openModal('cert3')">
+                    <div class="journey-category tr" data-en="Event & Workshop">Event & Workshop</div>
+                    <h3>DevFest Bali 2025 & Cloud Workshop</h3>
+                    <p class="tr" data-en="Participated in the Google Developer Group (GDG) Bali event and delved into the architecture of self-hosting n8n infrastructure on Google Cloud.">Berpartisipasi dalam ajang Google Developer Group (GDG) Bali serta mendalami arsitektur infrastruktur self-hosting n8n di Google Cloud.</p>
+                    <div class="click-hint tr" data-en="View Event Documentation <i class='fa-solid fa-arrow-right-long'></i>">Lihat Dokumentasi Kegiatan <i class="fa-solid fa-arrow-right-long"></i></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Pameran Karya Seni (Drawing Gallery) Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="section-header reveal" style="margin-bottom: 2rem;">
+            <h2 style="color: white;" class="tr" data-en="Digital & Manual Illustrations">Karya Ilustrasi Digital & Manual</h2>
+            <p class="tr" data-en="Visual exploration and pencil strokes beyond computational code boundaries.">Eksplorasi visual dan goresan pensil di luar batasan kode komputasi.</p>
+        </div>
+        
+        <div class="gallery-container reveal hover-target" id="galleryContainer">
+            <div class="gallery-item" onclick="openModal('art1')">
+                <img src="WhatsApp Image 2026-08-24 at 11.11.11 PM.jpeg" alt="Artwork 1">
+                <div class="gallery-overlay">
+                    <h4>Portrait Sketch</h4>
+                    <p>Graphite on paper</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('art2')">
+                <img src="WhatsApp Image 2026-08-24 at 11.09.43 PM (2).jpeg" alt="Artwork Jester">
+                <div class="gallery-overlay">
+                    <h4>The Jester</h4>
+                    <p>Dark fantasy sketch</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('art3')">
+                <img src="WhatsApp Image 2026-08-24 at 11.09.43 PM (1).jpeg" alt="Artwork Portrait 2">
+                <div class="gallery-overlay">
+                    <h4>Smiley Portrait</h4>
+                    <p>Detailed pencil work</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('art4')">
+                <img src="WhatsApp Image 2026-08-24 at 11.09.43 PM.jpeg" alt="Artwork Elf">
+                <div class="gallery-overlay">
+                    <h4>Elf Concept</h4>
+                    <p>Character design</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openModal('art5')">
+                <img src="WhatsApp Image 2026-08-24 at 11.09.44 PM.jpeg" alt="Artwork Headphones">
+                <div class="gallery-overlay">
+                    <h4>Modern Portrait</h4>
+                    <p>Music & vibes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-hint reveal">
+            <i class="fa-solid fa-arrows-left-right"></i> <span class="tr" data-en="Scroll horizontally to see more">Geser horizontal untuk melihat lebih banyak</span>
+        </div>
+    </section>
+
+    <!-- Footer & Kontak -->
+    <section class="footer-cta reveal">
+        <h2 class="tr" data-en="Let's Collaborate!">Mari Berkolaborasi!</h2>
+        <p class="tr" data-en="Interested in discussing opportunities in Data, AI, or UI/UX? Don't hesitate to reach out." style="color: var(--text-secondary); margin: 1rem auto 2rem auto; max-width: 500px;">
+            Tertarik untuk mendiskusikan peluang di bidang Data, AI, atau UI/UX? Jangan ragu untuk menghubungi saya.
+        </p>
+        <a href="mailto:emailkamu@gmail.com" class="btn btn-primary hover-target tr" data-en="Send Email <i class='fa-solid fa-paper-plane'></i>" style="padding: 1rem 2.5rem; margin-bottom: 2rem;">
+            Kirim Email <i class="fa-solid fa-paper-plane"></i>
+        </a>
+        
+        <!-- Social Media / GitHub / LinkedIn Links -->
+        <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+            <a href="https://github.com/HaruHiro123" target="_blank" class="hover-target" style="color: var(--text-primary); font-size: 1.8rem; transition: transform 0.3s;"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/kadek-wahyu-ardia-putra-6b296532b/" target="_blank" class="hover-target" style="color: #0a66c2; font-size: 1.8rem; transition: transform 0.3s;"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+        
+        <p class="tr" data-en="© 2026 Kadek Wahyu Ardia Putra. All rights reserved." style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 1.5rem;">© 2026 Kadek Wahyu Ardia Putra. All rights reserved.</p>
+    </section>
+
+    <script>
+        /* --- Translator Logic --- */
+        let currentLang = 'id';
+        const langToggle = document.getElementById('langToggle');
+        
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            document.documentElement.lang = currentLang;
+            
+            if(currentLang === 'en') {
+                langToggle.classList.add('en-mode');
+            } else {
+                langToggle.classList.remove('en-mode');
+            }
+            
+            document.querySelectorAll('.tr').forEach(el => {
+                if(!el.dataset.id) el.dataset.id = el.innerHTML; // Cache original text
+                el.innerHTML = currentLang === 'en' ? el.dataset.en : el.dataset.id;
+            });
+        });
+
+        /* --- Theme Toggle Logic --- */
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        /* --- Format Code GEE Snippet --- */
+        const geeCodeStr = `/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var gistda = ee.FeatureCollection("projects/research-project-sentinel/assets/banjir_nakhon_pathom"),
+    tanah = ee.Image("projects/research-project-sentinel/assets/soil_type2");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// FILTER AREA SPESIFIK KECAMATAN TERDAMPAK
+var nakhonPathom = ee.FeatureCollection("FAO/GAUL/2015/level2")
+    .filter(ee.Filter.eq('ADM1_NAME', 'Nakhon Pathom'))
+    .filter(ee.Filter.inList('ADM2_NAME', ['Bang Len', 'Nakhon Chai Si']));
+
+Map.centerObject(nakhonPathom, 11);
+
+// FUNGSI UTAMA UNTUK EKSTRAKSI DATA RADAR SENTINEL-1
+var getRadarImage = function(startDate, endDate, type) {
+  var collection = ee.ImageCollection('COPERNICUS/S1_GRD')
+      .filterBounds(nakhonPathom)
+      .filterDate(startDate, endDate)
+      .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VV'))
+      .filter(ee.Filter.eq('instrumentMode', 'IW'));
+  
+  var rawImage = (type === 'banjir') ? collection.select('VV').min() : collection.select('VV').median();
+  return rawImage.clip(nakhonPathom).focal_median(20, 'circle', 'meters'); // Speckle filter 20m
+};
+
+// EKSTRAKSI KONDISI BANJIR (2021 & 2022) DAN KONDISI KERING (NORMAL)
+var radar_banjir_2021 = getRadarImage('2021-10-01', '2021-11-30', 'banjir'); // Badai Dianmu
+var radar_banjir_2022 = getRadarImage('2022-09-25', '2022-11-10', 'banjir'); // Topan Noru
+var radar_kering_normal  = getRadarImage('2020-01-01', '2020-07-31', 'kering'); // Fase Kering / Normal
+
+// PROSES VARIABEL TOPOGRAFI (SRTM)
+var srtm = ee.Image("USGS/SRTMGL1_003").clip(nakhonPathom);
+var slope = ee.Terrain.slope(srtm);
+
+// PENYIAPAN VARIABEL JENIS TANAH
+var tanah_clip = tanah.select(0).clip(nakhonPathom).rename('soil_type');
+
+// PREPARATION FOR MACHINE LEARNING STACK
+var stack_analisis_2021 = radar_banjir_2021.rename('VV_Banjir')
+    .addBands(radar_kering_normal.rename('VV_Normal'))
+    .addBands(srtm.rename('elevation'))
+    .addBands(slope.rename('slope'))
+    .addBands(tanah_clip);
+
+print('Variabel Latihan Lengkap (Ready untuk ML):', stack_analisis_2021.bandNames());
+
+// =================================================================
+// VISUALISASI DATA PADA KANVAS PETA
+// =================================================================
+var radarVis = {min: -22, max: -8, bands: ['VV']};
+var terrainVis = {min: 0, max: 20, palette: ['blue', 'green', 'yellow']};
+
+Map.clear();
+
+Map.addLayer(radar_kering_normal, radarVis, '1. Kondisi Kering / Normal');
+Map.addLayer(radar_banjir_2021, radarVis, '2. Kondisi Banjir 2021 (Badai Dianmu)');
+Map.addLayer(radar_banjir_2022, radarVis, '3. Kondisi Banjir 2022 (Topan Noru)');
+
+Map.addLayer(srtm, terrainVis, '4. Elevasi DEM', false);
+Map.addLayer(tanah_clip, {}, '5. Jenis Tanah (Input ML)', false);
+Map.addLayer(gistda, {color: 'red'}, '6. Titik Validasi Historis GISTDA', false);
+Map.addLayer(nakhonPathom, {color: 'yellow'}, 'Batas Kecamatan Fokus', false);
+
+// =================================================================
+// SIMPLE MACHINE LEARNING (THE CORE) - SPATIAL PROXY
+// =================================================================
+
+var labelBanjir = gistda.filter(ee.Filter.gt('y_2011', 0)) 
+    .map(function(f) { return f.set('Label', 1); });
+
+var bandsUntukML = ['VV_Banjir', 'VV_Normal', 'elevation', 'slope', 'soil_type'];
+
+var sampelBanjir = stack_analisis_2021.select(bandsUntukML).sampleRegions({
+  collection: labelBanjir, properties: ['Label'], scale: 10, tileScale: 4 
+});
+
+var sampelDarat = stack_analisis_2021.select(bandsUntukML).sample({
+  region: nakhonPathom, scale: 10, numPixels: 1000, geometries: true
+}).map(function(f) { return f.set('Label', 0); });
+
+var trainingDataRaw = sampelBanjir.merge(sampelDarat);
+var trainingData = trainingDataRaw.filter(ee.Filter.notNull(bandsUntukML));
+
+print('--- STATUS DATA TRAINING ---');
+print('1. Jumlah Sampel Banjir (via 2011):', sampelBanjir.size());
+print('2. Jumlah Sampel Darat:', sampelDarat.size());
+print('3. Total Data Siap Train:', trainingData.size());
+
+var classifier = ee.Classifier.smileRandomForest(50)
+  .train({ features: trainingData, classProperty: 'Label', inputProperties: bandsUntukML });
+
+var hasilKlasifikasi = stack_analisis_2021.select(bandsUntukML).classify(classifier);
+
+Map.addLayer(hasilKlasifikasi.updateMask(hasilKlasifikasi.eq(1)), 
+  {palette: ['#ff0000']}, 
+  'HASIL ML: Prediksi Banjir 2021 (Model Latih 2011)'
+);`;
+
+        const codeBlockHtml = `<div class="code-container"><pre><code>${geeCodeStr.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre></div>`;
+
+        /* --- Data Modal Berisi Kumpulan Asset (Support EN Translation) --- */
+        const modalData = {
+            'proj1': {
+                title: 'Pendeteksian Banjir Nakhon Phanom',
+                title_en: 'Nakhon Phanom Flood Detection',
+                desc: `Eksplorasi Pendeteksian Banjir di daerah Nakhon Phanom, Thailand menggunakan Machine Learning (Random Forest) dan platform Google Earth Engine (GEE).
+                <br><br>
+                <b style="color:var(--text-primary);">Mengapa Genangan Air Ditampilkan Hitam Pekat?</b><br>
+                Pada citra satelit radar Sentinel-1, permukaan air yang tenang bertindak layaknya cermin (<i>specular reflector</i>). Sinyal radar yang dipancarkan akan dipantulkan menjauhi satelit, menghasilkan nilai pantulan balik (<i>backscatter</i> VV) yang sangat rendah. Melalui parameter kode <code>.min()</code>, sistem mengekstrak nilai minimum dari periode waktu terjadinya badai/topan. Alhasil, <b>area yang tergenang banjir akan terisolasi dan tervisualisasi menjadi area berwarna hitam pekat</b>.
+                ${codeBlockHtml}`,
+                desc_en: `Exploration of Flood Detection in the Nakhon Phanom area, Thailand using Machine Learning (Random Forest) and the Google Earth Engine (GEE) platform.
+                <br><br>
+                <b style="color:var(--text-primary);">Why are puddles displayed pitch black?</b><br>
+                On Sentinel-1 radar satellite imagery, still water acts as a mirror (<i>specular reflector</i>). The emitted radar signal reflects away from the satellite, resulting in a very low backscatter value (VV). Through the <code>.min()</code> parameter, the system extracts the minimum value from the storm/typhoon period. As a result, <b>flooded areas are isolated and visualized as pitch-black areas</b>.
+                ${codeBlockHtml}`,
+                img: 'image_1a5e6a.png',
+                link: '',
+                linkText: 'Kunjungi Tautan',
+                linkText_en: 'Visit Link'
+            },
+            'proj2': {
+                title: 'AeroInspect360',
+                title_en: 'AeroInspect360 System',
+                desc: 'Membuat website pelaporan inspeksi untuk Bandar Udara Komodo. Sistem ini dirancang untuk pelaporan kondisi kendaraan agar jauh lebih terstruktur, di mana penyimpanan database-nya memanfaatkan Google Spreadsheet untuk kemudahan akses dan manajemen data.',
+                desc_en: 'Created an inspection reporting website for Komodo Airport. This system is designed for highly structured vehicle condition reporting, utilizing Google Spreadsheet as its database storage for easy access and data management.',
+                img: '',
+                link: 'https://aeroinspect360.netlify.app/',
+                linkText: '<i class="fa-solid fa-globe"></i> Buka Web AeroInspect360',
+                linkText_en: '<i class="fa-solid fa-globe"></i> Open AeroInspect360 Web'
+            },
+            'proj3': {
+                title: 'UI/UX Aplikasi SEHATIN & LENTERA',
+                title_en: 'UI/UX App SEHATIN & LENTERA',
+                desc: `Melakukan perancangan tampilan visual (UI) dan pengalaman pengguna (UX) untuk aplikasi bernama SEHATIN dan LENTERA. Desain prototipe interaktif ini dibangun sepenuhnya menggunakan platform Figma.
+                <br><br><b style="color:var(--text-primary);">Klik tautan di bawah ini untuk menguji Prototype secara langsung:</b>
+                <div class="figma-btn-group">
+                    <a href="https://www.figma.com/proto/XEmLQudfC14IOae8J8BBZo/Web?node-id=14-199&p=f&t=O5oQYg57Qs9wpEf3-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=14%3A199" target="_blank" class="figma-btn"><i class="fa-brands fa-figma"></i> Klik ini untuk melihat Prototype SEHATIN</a>
+                    <a href="https://www.figma.com/design/PPKuZTv638qCGNpBg9755q/Lentera?node-id=0-1&t=tjIKjKUnqZRG1kvy-1" target="_blank" class="figma-btn"><i class="fa-brands fa-figma"></i> Klik ini untuk melihat Prototype LENTERA</a>
+                </div>`,
+                desc_en: `Designing the visual interface (UI) and user experience (UX) for applications named SEHATIN and LENTERA. This interactive prototype design was built entirely using the Figma platform.
+                <br><br><b style="color:var(--text-primary);">Click the links below to test the Prototype directly:</b>
+                <div class="figma-btn-group">
+                    <a href="https://www.figma.com/proto/XEmLQudfC14IOae8J8BBZo/Web?node-id=14-199&p=f&t=O5oQYg57Qs9wpEf3-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=14%3A199" target="_blank" class="figma-btn"><i class="fa-brands fa-figma"></i> Click here to view SEHATIN Prototype</a>
+                    <a href="https://www.figma.com/design/PPKuZTv638qCGNpBg9755q/Lentera?node-id=0-1&t=tjIKjKUnqZRG1kvy-1" target="_blank" class="figma-btn"><i class="fa-brands fa-figma"></i> Click here to view LENTERA Prototype</a>
+                </div>`,
+                img: 'mockup fix.png',
+                link: '',
+                linkText: ''
+            },
+            'proj4': {
+                title: 'Repositori GitHub Pribadi',
+                title_en: 'Personal GitHub Repository',
+                desc: 'Kunjungi profil GitHub saya untuk melihat berbagai baris kode, eksplorasi mini proyek, dan dokumentasi repositori yang membuktikan perjalanan belajar serta kemampuan teknis saya secara faktual.',
+                desc_en: 'Visit my GitHub profile to explore various lines of code, mini-projects, and repository documentation that factually prove my learning journey and technical abilities.',
+                img: '',
+                link: 'https://github.com/HaruHiro123',
+                linkText: '<i class="fa-brands fa-github"></i> Kunjungi GitHub Saya',
+                linkText_en: '<i class="fa-brands fa-github"></i> Visit My GitHub'
+            },
+
+            /* Data Sertifikasi & Event */
+            'cert1': { 
+                title: 'Belajar Dasar Data Science', 
+                title_en: 'Learning Basic Data Science',
+                desc: 'Diberikan oleh Dicoding Academy atas kelulusan pada kelas Belajar Dasar Data Science. Memvalidasi pemahaman terhadap konsep analisis data.', 
+                desc_en: 'Awarded by Dicoding Academy upon graduation from the Learning Basic Data Science class. Validates the understanding of data analysis concepts.',
+                img: 'sertifikat_course_615_4384993_041024220748_page-0001.jpg', 
+                link: '' 
+            },
+            'cert2': { 
+                title: 'IC3 Digital Literacy - GS6 Level 1', 
+                title_en: 'IC3 Digital Literacy - GS6 Level 1', 
+                desc: 'Membuktikan kompetensi dan pengetahuan terkait Technology Basics, Digital Citizenship, Information Management, Content Creation, Communication, Collaboration, serta Safety and Security dari penyelesaian kelulusan ujian literasi digital secara sukses.', 
+                desc_en: 'Proves competence and knowledge related to Technology Basics, Digital Citizenship, Information Management, Content Creation, Communication, Collaboration, and Safety and Security from the successful completion of the digital literacy exam.',
+                img: 'IC3 GS6 Level 1_page-0001.jpg', 
+                link: '' 
+            },
+            'cert3': {
+                title: 'DevFest Bali 2025 & Cloud Workshop',
+                title_en: 'DevFest Bali 2025 & Cloud Workshop',
+                desc: 'Momen keikutsertaan dalam ajang Google Developer Group (GDG) Bali serta sesi mendalami arsitektur infrastruktur self-hosting n8n di Google Cloud bersama komunitas teknologi dan praktisi profesional.',
+                desc_en: 'Moments of participation in the Google Developer Group (GDG) Bali event and deep-dive sessions into the self-hosting n8n infrastructure architecture on Google Cloud with the tech community and professionals.',
+                images: ['Gdev.jpeg', 'GIO1.jpeg', 'gIo.jpeg'],
+                link: ''
+            },
+
+            /* Data Pameran Seni */
+            'art1': { title: 'Portrait Sketch', desc: 'Eksplorasi goresan pensil grafit yang berfokus pada detail bayangan dan proporsi wajah.', desc_en: 'Exploration of graphite pencil strokes focusing on shadow details and facial proportions.', img: 'WhatsApp Image 2026-08-24 at 11.11.11 PM.jpeg', link: '' },
+            'art2': { title: 'The Jester', desc: 'Sketsa bernuansa dark fantasy yang menampilkan karakter Jester dengan kontras pencahayaan yang dramatis.', desc_en:'A dark fantasy sketch featuring a Jester character with dramatic lighting contrast.', img: 'WhatsApp Image 2026-08-24 at 11.09.43 PM (2).jpeg', link: '' },
+            'art3': { title: 'Smiley Portrait', desc: 'Pengerjaan pensil mendetail yang menangkap ekspresi senyum alami dan helaian rambut yang dinamis.', desc_en:'Detailed pencil work capturing a natural smile expression and dynamic hair strands.', img: 'WhatsApp Image 2026-08-24 at 11.09.43 PM (1).jpeg', link: '' },
+            'art4': { title: 'Elf Concept', desc: 'Desain karakter konsep peri (Elf) yang menonjolkan estetika fantasi ringan dan detail dekoratif.', desc_en:'Elf concept character design highlighting light fantasy aesthetics and decorative details.', img: 'WhatsApp Image 2026-08-24 at 11.09.43 PM.jpeg', link: '' },
+            'art5': { title: 'Modern Portrait', desc: 'Goresan pensil bergaya kontemporer yang menggabungkan anatomi wajah dengan elemen modern (headphone).', desc_en:'Contemporary style pencil strokes combining facial anatomy with modern elements (headphones).', img: 'WhatsApp Image 2026-08-24 at 11.09.44 PM.jpeg', link: '' },
+            
+            /* Data Pameran Organisasi */
+            'exp_1': { title: 'Rapat Kerja HMJ TI', title_en:'HMJ TI Work Meeting', desc: 'Berpartisipasi aktif dalam merumuskan dan mengesahkan berbagai program kerja kepengurusan baru.', desc_en:'Actively participating in formulating and ratifying various new management work programs.', img: 'Mei5.jpeg', link: '' },
+            'exp_2': { title: 'Pembukaan IT Camp', title_en:'IT Camp Opening', desc: 'Pemaparan visi orientasi luar ruangan yang difokuskan pada penguatan rasa kebersamaan mahasiswa baru.', desc_en:'Presentation of the outdoor orientation vision focused on strengthening the sense of togetherness of new students.', img: 'Mei.jpeg', link: '' },
+            'exp_3': { title: 'Solidaritas Informatika', title_en:'Informatics Solidarity', desc: 'Kegiatan lapangan bersama seluruh panitia untuk mempererat kerja sama tim dan jiwa kepemimpinan.', desc_en:'Field activities with the entire committee to strengthen teamwork and leadership.', img: 'Mei1.jpeg', link: '' },
+            'exp_4': { title: 'Penyuluhan IT Educare', title_en:'IT Educare Counseling', desc: 'Penyampaian edukasi literasi digital secara langsung kepada masyarakat dan siswa dalam program pengabdian.', desc_en:'Delivering digital literacy education directly to the community and students in community service programs.', img: 'Juli1.jpeg', link: '' },
+            'exp_5': { title: 'Puncak IT Educare', title_en:'Peak of IT Educare', desc: 'Kolaborasi hebat dari seluruh kepanitiaan HMJ TI dalam menyukseskan acara edukasi tahunan.', desc_en:'Great collaboration from the entire HMJ TI committee in succeeding the annual educational event.', img: 'Juli4.jpeg', link: '' },
+            'exp_6': { title: 'Studi Banding HIMAPRODI', title_en:'Comparative Study', desc: 'Bertukar wawasan dan program kerja inovatif bersama himpunan mahasiswa untuk memperluas perspektif organisasi.', desc_en:'Exchanging insights and innovative work programs with student associations to broaden organizational perspectives.', img: 'Juliiiiiii.jpeg', link: '' },
+            'exp_7': { title: 'Sharing Session', title_en:'Sharing Session', desc: 'Sesi berbagi ilmu dan pengalaman yang membahas inovasi teknologi serta technopreneurship bersama mahasiswa.', desc_en:'Knowledge and experience sharing sessions discussing tech innovation and technopreneurship with students.', img: 'Oktober1.jpeg', link: '' },
+            'exp_8': { title: 'INTEGER 2025', title_en:'INTEGER 2025', desc: 'Berpartisipasi dalam kepanitiaan INTEGER sebagai wadah eksplorasi dan kompetisi IT tingkat nasional.', desc_en:'Participating in the INTEGER committee as a platform for national level IT exploration and competition.', img: 'Integer Oktober.jpeg', link: '' },
+            'exp_9': { title: 'Kegiatan Kreatif', title_en:'Creative Activities', desc: 'Mendukung kreativitas dan antusiasme mahasiswa dalam acara bertema budaya pop (Cosplay).', desc_en:'Supporting student creativity and enthusiasm in pop culture (Cosplay) themed events.', img: 'November.jpeg', link: '' },
+            'exp_10': { title: 'Pameran Stand', title_en:'Booth Exhibition', desc: 'Mempromosikan program studi Ilmu Komputer dalam kegiatan pameran dan perkenalan kampus.', desc_en:'Promoting the Computer Science study program in campus exhibition and introduction activities.', img: 'November4.jpeg', link: '' },
+            'exp_11': { title: 'Sinergi Organisasi', title_en:'Organizational Synergy', desc: 'Momen kebersamaan dan konsolidasi kepengurusan organisasi mahasiswa di lingkungan Fakultas.', desc_en:'Moments of togetherness and consolidation of student organization management within the Faculty.', img: 'November korma.jpeg', link: '' },
+            'exp_12': { title: 'PEMIRA Serentak FTK', title_en:'FTK Joint Election', desc: 'Berpartisipasi dalam penyelenggaraan Pemilihan Raya (PEMIRA) serentak Fakultas Teknik dan Kejuruan.', desc_en:'Participating in the implementation of the simultaneous Faculty of Engineering and Vocational Election (PEMIRA).', img: 'Januari.jpeg', link: '' },
+            'exp_13': { title: 'Solidaritas Pengurus', title_en:'Board Solidarity', desc: 'Dokumentasi kebersamaan dan koordinasi awal bersama anggota Himpunan Mahasiswa Jurusan Teknik Informatika.', desc_en:'Documentation of togetherness and initial coordination with members of the Informatics Engineering Student Association.', img: 'Februari.jpeg', link: '' },
+            'exp_14': { title: 'Apresiasi Organisasi', title_en:'Organizational Appreciation', desc: 'Menerima penghargaan dan sertifikat sebagai bentuk apresiasi atas dedikasi serta pencapaian.', desc_en:'Receiving awards and certificates as a form of appreciation for dedication and achievements.', img: 'MAret2.jpeg', link: '' },
+            'exp_15': { title: 'Kekompakan Panitia', title_en:'Committee Cohesion', desc: 'Momen kebersamaan dan sinergi tim panitia dalam mempersiapkan dan menyukseskan berbagai program kerja kampus.', desc_en:'Moments of togetherness and synergy of the committee team in preparing and succeeding various campus work programs.', img: 'Maret4.jpeg', link: '' },
+            'exp_16': { title: 'Suksesi Camp', title_en:'Succession Camp', desc: 'Kegiatan pengembangan karakter dan regenerasi kepemimpinan melalui program Suksesi Camp di alam terbuka.', desc_en:'Character development activities and leadership regeneration through the outdoor Succession Camp program.', img: 'akhir maret.jpeg', link: '' }
+        };
+
+        const modal = document.getElementById('dataModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalLink = document.getElementById('modal-link');
+        const modalLinkText = document.getElementById('modal-link-text');
+
+        function openModal(id) {
+            const data = modalData[id];
+            if(!data) return; 
+            
+            // Terapkan translasi modal
+            modalTitle.innerHTML = currentLang === 'en' && data.title_en ? data.title_en : data.title;
+            modalDesc.innerHTML = currentLang === 'en' && data.desc_en ? data.desc_en : data.desc;
+            
+            /* --- Logika Penanganan Foto --- */
+            const galleryContainer = document.getElementById('modal-img-container');
+            galleryContainer.innerHTML = ''; 
+
+            if (data.images && data.images.length > 0) {
+                galleryContainer.className = 'modal-gallery multiple-imgs';
+                data.images.forEach(src => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = src;
+                    imgElement.alt = "Dokumentasi Kegiatan";
+                    galleryContainer.appendChild(imgElement);
+                });
+                galleryContainer.style.display = 'grid';
+            } else if (data.img) {
+                galleryContainer.className = 'modal-gallery single-img';
+                const imgElement = document.createElement('img');
+                imgElement.src = data.img;
+                imgElement.alt = "Dokumentasi Tunggal";
+                galleryContainer.appendChild(imgElement);
+                galleryContainer.style.display = 'block';
+            } else {
+                galleryContainer.style.display = 'none';
+            }
+
+            if(data.link) {
+                modalLink.href = data.link;
+                const txtEn = data.linkText_en || "Visit Link";
+                const txtId = data.linkText || "Kunjungi Tautan";
+                modalLinkText.innerHTML = currentLang === 'en' ? txtEn : txtId;
+                modalLink.style.display = 'inline-flex';
+            } else {
+                modalLink.style.display = 'none';
+            }
+
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.classList.add('show'); }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) { closeModal(); }
+        }
+
+        /* --- Scroll Horisontal untuk Galeri Seni --- */
+        const gallery = document.getElementById('galleryContainer');
+        if(gallery) {
+            gallery.addEventListener('wheel', (evt) => {
+                if(window.innerWidth > 900) {
+                    evt.preventDefault();
+                    gallery.scrollLeft += evt.deltaY;
+                }
+            });
+        }
+
+        /* --- JAVASCRIPT: LOGIKA SCROLL ISOLASI (SMOOTH LERP) UNTUK EXHIBITION FOTO --- */
+        const scrollWindow = document.querySelector('.horizontal-scroll-window');
+        const progressFill = document.getElementById('exhibitionProgressFill');
+        const markersContainer = document.getElementById('timelineMarkersContainer');
+        
+        let markers = [];
+        const totalExhibitionItems = document.querySelectorAll('.exhibition-item').length;
+        if(markersContainer && totalExhibitionItems > 0) {
+            for(let i=0; i<totalExhibitionItems; i++) {
+                let m = document.createElement('div');
+                m.className = 'exhibition-marker';
+                markersContainer.appendChild(m);
+                markers.push(m);
+            }
+        }
+
+        let targetScroll = 0;
+        let currentScroll = 0;
+        let isScrolling = false;
+
+        if (scrollWindow) {
+            scrollWindow.addEventListener('wheel', (evt) => {
+                if (window.innerWidth > 900) {
+                    const maxScroll = scrollWindow.scrollWidth - scrollWindow.clientWidth;
+                    const isAtStart = currentScroll <= 0;
+                    const isAtEnd = currentScroll >= maxScroll - 1; 
+                    
+                    if ((evt.deltaY > 0 && !isAtEnd) || (evt.deltaY < 0 && !isAtStart)) {
+                        evt.preventDefault(); 
+                        targetScroll += evt.deltaY * 1.5; 
+                        targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+                        
+                        if (!isScrolling) {
+                            isScrolling = true;
+                            smoothScrollLoop();
+                        }
+                    }
+                }
+            }, { passive: false });
+
+            function smoothScrollLoop() {
+                currentScroll += (targetScroll - currentScroll) * 0.08; 
+                scrollWindow.scrollLeft = currentScroll;
+                
+                if (Math.abs(targetScroll - currentScroll) > 1) {
+                    requestAnimationFrame(smoothScrollLoop);
+                } else {
+                    scrollWindow.scrollLeft = targetScroll;
+                    currentScroll = targetScroll;
+                    isScrolling = false;
+                }
+            }
+
+            scrollWindow.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    targetScroll = scrollWindow.scrollLeft;
+                    currentScroll = scrollWindow.scrollLeft;
+                }
+                
+                const maxScroll = scrollWindow.scrollWidth - scrollWindow.clientWidth;
+                if(maxScroll <= 0) return;
+
+                const scrollProgress = scrollWindow.scrollLeft / maxScroll;
+                
+                if (progressFill) progressFill.style.width = `${scrollProgress * 100}%`;
+
+                const activeIndex = Math.min(Math.round(scrollProgress * (totalExhibitionItems - 1)), totalExhibitionItems - 1);
+                markers.forEach((marker, idx) => {
+                    if(marker) {
+                        if(idx <= activeIndex) {
+                            marker.classList.add('active');
+                        } else {
+                            marker.classList.remove('active');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Scroll global (fade pada Hero Image)
+        window.addEventListener("scroll", () => {
+            const scrollY = window.scrollY;
+            const heroVisual = document.getElementById('heroVisual');
+            if (heroVisual) {
+                heroVisual.style.transform = `translateY(${scrollY * 0.3}px)`;
+                heroVisual.style.opacity = Math.max(1 - scrollY / 700, 0); 
+            }
+        });
+
+        /* --- Animasi Custom Cursor --- */
+        const cursor = document.getElementById('cursorFollower');
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('.hover-target, #modal-link, .gallery-item, .exhibition-item, .journey-content, .close-btn, .lang-switch, .theme-switch, .ig-link, .figma-btn').forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                cursor.style.width = '65px'; cursor.style.height = '65px';
+                cursor.style.backgroundColor = 'rgba(139, 92, 246, 0.15)';
+                cursor.style.borderColor = 'rgba(139, 92, 246, 0.4)';
+            });
+            target.addEventListener('mouseleave', () => {
+                cursor.style.width = '35px'; cursor.style.height = '35px';
+                cursor.style.backgroundColor = 'rgba(59, 130, 246, 0.15)';
+                cursor.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+            });
+        });
+
+        /* --- Scroll Reveal Animasi --- */
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) { reveals[i].classList.add("active"); }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
