@@ -1,0 +1,54 @@
+GAMBAR ASLI SUDAH DISERTAKAN
+
+Foto pengalaman dari Gambar.zip dan aset tambahan dari repository HaruHiro123/Portofolio-2026. Isi gambar tidak diubah.
+
+images/Februari.jpeg
+images/GIO1.jpeg
+images/Gdev.jpeg
+images/IC3 GS6 Level 1_page-0001.jpg
+images/Integer Oktober.jpeg
+images/Januari.jpeg
+images/Juli.jpeg
+images/Juli1.jpeg
+images/Juli2.jpeg
+images/Juli4.jpeg
+images/Julii.jpeg
+images/Juliiii.jpeg
+images/Juliiiiiii.jpeg
+images/MAret.jpeg
+images/Maret2.jpeg
+images/Maret4.jpeg
+images/Mei 4.jpeg
+images/Mei.jpeg
+images/Mei1.jpeg
+images/Mei3.jpeg
+images/Mei5.jpeg
+images/November korma.jpeg
+images/November.jpeg
+images/November2.jpeg
+images/November3.jpeg
+images/November4.jpeg
+images/Oktober.jpeg
+images/Oktober1.jpeg
+images/Oktober2.jpeg
+images/WhatsApp Image 2026-08-24 at 10.10.30 PM.jpeg
+images/WhatsApp Image 2026-08-24 at 11.09.43 PM (1).jpeg
+images/WhatsApp Image 2026-08-24 at 11.09.43 PM (2).jpeg
+images/WhatsApp Image 2026-08-24 at 11.09.43 PM.jpeg
+images/WhatsApp Image 2026-08-24 at 11.09.44 PM.jpeg
+images/WhatsApp Image 2026-08-24 at 11.11.11 PM.jpeg
+images/akhir maret suksesi camp.jpeg
+images/akhir maret.jpeg
+images/gIo.jpeg
+images/image_1a5e6a.png
+images/images.jpeg
+images/images.png
+images/mockup fix.png
+images/sertifikat_course_615_4384993_041024220748_page-0001.jpg
+images/sertifikat_course_615_4384993_041024220748_page-0002.jpg
+images/sertifikat_course_615_4384993_041024220748_page-0003.jpg
+images/sertifikat_course_615_4384993_041024220748_page-0004.jpg
+
+Gambar sertifikat baru: images/certificates/
+Desain Canva baru: images/designs/
+Tambahkan data pada assets/js/data.js; panduan lengkap di README.md.
