@@ -101,9 +101,9 @@
         Punya ide, pertanyaan, atau kesempatan kolaborasi? Saya senang mendengarnya.
        </span>
 </p>
-<a class="mt-8 block break-all font-semibold underline underline-offset-4" href="mailto:ardiawahyu7@gmail.com">
-       ardiawahyu7@gmail.com
-      </a>
+<p class="tr mt-8 text-sm leading-7 text-slate-300" data-en="For privacy, my email address is not displayed publicly. Send your message through the form and it will be forwarded securely.">
+       Untuk privasi, alamat email saya tidak ditampilkan secara publik. Kirim pesan melalui formulir dan pesan akan diteruskan dengan aman.
+      </p>
 <div class="mt-8 flex flex-wrap gap-5 text-sm font-semibold">
 <a class="" href="https://github.com/HaruHiro123" rel="noopener noreferrer" target="_blank">
         GitHub ↗
@@ -113,7 +113,7 @@
        </a>
 </div>
 <div aria-hidden="true" class="verse-mascot mascot-contact" data-mascot="contact"></div></aside>
-<form class="rounded-3xl border border-line bg-card p-6 sm:p-9" id="contactForm">
+<form class="rounded-3xl border border-line bg-card p-6 sm:p-9" data-endpoint="https://formspree.io/f/mkjgndzz" id="contactForm">
 <div class="grid gap-5 sm:grid-cols-2">
 <div>
 <label class="form-label" for="contactName">
@@ -146,28 +146,27 @@
 </label>
 <textarea class="form-input min-h-40 resize-y" id="contactMessage" maxlength="3000" minlength="10" name="message" required="" rows="5"></textarea>
 </div>
+<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+<label for="contactWebsite">Website</label>
+<input autocomplete="off" id="contactWebsite" name="_gotcha" tabindex="-1" type="text"/>
+</div>
 <p class="mt-4 text-xs leading-6 text-muted">
-<span class="tr" data-en="This form prepares a draft in your email app. Your message is sent only when you press Send in that app.">
-        Formulir ini menyiapkan draf di aplikasi emailmu. Pesan baru dikirim setelah kamu menekan Kirim di aplikasi email.
+<span class="tr" data-en="Your message is sent through this form without showing my personal email address on the website.">
+        Pesanmu dikirim melalui formulir ini tanpa menampilkan alamat email pribadi saya di website.
        </span>
 </p>
 <button class="btn-primary mt-6" disabled="" type="submit">
-<span class="tr" data-en="Prepare Email">
-        Siapkan Email
+<span class="tr" data-en="Send Message">
+        Kirim Pesan
        </span>
-<i aria-hidden="true" class="fa-solid fa-arrow-up-right-from-square">
+<i aria-hidden="true" class="fa-solid fa-paper-plane">
 </i>
 </button>
-<p class="mt-4 text-sm leading-7 text-muted" id="contactFeedback" role="status">
+<p aria-live="polite" class="mt-4 text-sm leading-7 text-muted" id="contactFeedback" role="status">
 </p>
-<a class="text-link mt-3 inline-block text-sm font-bold" hidden="" id="preparedEmail">
-<span class="tr" data-en="Open draft in your email app →">
-        Buka draf di aplikasi email →
-       </span>
-</a>
 <noscript>
-<p class="mt-4">
-        Kirim pesan langsung melalui tautan email di samping.
+<p class="mt-4 text-sm leading-7 text-muted">
+<span class="tr" data-en="JavaScript is required to send this form securely.">JavaScript diperlukan untuk mengirim formulir ini dengan aman.</span>
        </p>
 </noscript>
 </form>
@@ -181,8 +180,8 @@
 <p class="mt-2 text-sm text-muted"><span class="tr" data-en="Designed &amp;amp; built by">Dirancang &amp; dibangun oleh</span><br/>Kadek Wahyu Ardia Putra · © 2026</p>
 </div>
 <div class="flex flex-wrap gap-5 text-sm font-semibold">
-<a class="text-link" href="mailto:ardiawahyu7@gmail.com">
-      Email ↗
+<a class="text-link" href="kontak.html">
+<span class="tr" data-en="Contact ↗">Kontak ↗</span>
      </a>
 <a class="text-link" href="https://github.com/HaruHiro123" rel="noopener noreferrer" target="_blank">
       GitHub ↗
